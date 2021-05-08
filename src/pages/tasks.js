@@ -27,7 +27,8 @@ function Tasks(props) {
     const tasks             = useSelector((state) => state.taskListReducer.tasks);
     const isAdmin           = useSelector((state) => state.taskListReducer.isAdmin);
     const queries           = useSelector((state) => state.taskListReducer.queries);
-    const editOpen            = useSelector((state) => state.taskListReducer.open_detail);
+    const editOpen          = useSelector((state) => state.taskListReducer.open_detail);
+    const isOpen            = useSelector((state) => state.taskListReducer.modal);
 
     const[query, setQuery]  = useState([{val : "username" , current: true},{val : "email", current: false},{val : "status", current: false}])
     const[sortBy, setSortBy]   = useState([{val: "DESC", current: true}, {val: "ASC", current: false}])
@@ -60,7 +61,7 @@ function Tasks(props) {
                 payload: res.tasks
             })
         },currentPage, queries)
-    },[currentPage,queries,editOpen])
+    },[currentPage,queries,editOpen,isOpen])
 
     useEffect(() => {
         setQuery(query.map((e)=>{
