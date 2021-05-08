@@ -2,9 +2,6 @@
   "name": "test-app",
   "version": "0.1.0",
   "private": true,
-  "devServer": {
-    "disableHostCheck": true
-  },
   "engines" :{
     "npm" : "6.14.12",
     "node" : "14.16.1"
