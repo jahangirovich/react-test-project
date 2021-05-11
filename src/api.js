@@ -1,7 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 
-const API_URL = 'https://cors-anywhere.herokuapp.com/https://test-project-laravel-react.herokuapp.com/api/';
+const API_URL = 'http://localhost:8000/api/';
 
 export const getTasks = (callback, page, query) =>{
     axios

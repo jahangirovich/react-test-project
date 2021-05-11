@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
+import { connect } from 'react-redux';
 
 const LEFT_PAGE = "LEFT";
 const RIGHT_PAGE = "RIGHT";
@@ -20,6 +21,8 @@ class Pagination extends Component {
   constructor(props) {
     super(props);
     const { totalRecords = null, pageLimit = 30, pageNeighbours = 0, currentPage = 1} = props;
+    
+    console.log(props.tasks ? props.tasks.total_task_count : 10)
 
     this.pageLimit = typeof pageLimit === "number" ? pageLimit : 30;
     this.totalRecords = typeof totalRecords === "number" ? totalRecords : 0;
@@ -183,6 +186,12 @@ class Pagination extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    total_count: state.taskListReducer.tasks
+  }
+}
+
 Pagination.propTypes = {
   totalRecords: PropTypes.number.isRequired,
   pageLimit: PropTypes.number,
@@ -191,4 +200,4 @@ Pagination.propTypes = {
   currentPage: PropTypes.number
 };
 
-export default Pagination;
+export default connect(mapStateToProps)(Pagination);

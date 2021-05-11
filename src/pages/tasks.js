@@ -33,7 +33,7 @@ function Tasks(props) {
     const[query, setQuery]  = useState([{val : "username" , current: true},{val : "email", current: false},{val : "status", current: false}])
     const[sortBy, setSortBy]   = useState([{val: "DESC", current: true}, {val: "ASC", current: false}])
 
-    const[total, setTotal] = useState(0)
+    const[total, setTotal] = useState(1)
     const[currentPage, setCurrentPage] = useState(parseInt(id))
 
     const onPageChanged = (currentPage)=>{
@@ -58,39 +58,30 @@ function Tasks(props) {
             setTotal(res.total_task_count)
             setDispatcher({
                 type: ActionTypes.SET_TASKS,
-                payload: res.tasks
+                payload: res
             })
         },currentPage, queries)
     },[currentPage,queries,editOpen,isOpen])
 
     useEffect(() => {
-        setQuery(query.map((e)=>{
-            if(e.val == queries["sort_field"]){
-                return {
-                    val: e.val,
-                    current: true
-                }
-            }
-            return {
-                val: e.val,
-                current: false
-            }
-        }))
+        setQuery(query.map((e)=>callFilterFunc(e,queries,"sort_field")))
 
-        setSortBy(sortBy.map((e)=>{
-            if(e.val == queries["sort_direction"]){
-                return {
-                    val: e.val,
-                    current: true
-                }
-            }
-            return {
-                val: e.val,
-                current: false
-            }
-        }))
+        setSortBy(sortBy.map((e)=> callFilterFunc(e,queries,"sort_direction")))
 
     }, [queries])
+
+    const callFilterFunc = (e,queries,key) => {
+        if(e.val == queries[key]){
+            return {
+                val: e.val,
+                current: true
+            }
+        }
+        return {
+            val: e.val,
+            current: false
+        }
+    }
 
     function querySelect(e){
         setDispatcher({
@@ -173,7 +164,7 @@ function Tasks(props) {
                     </div>
                 </Category>
                 {
-                    tasks ? tasks.map((e,i) => {
+                    tasks.tasks ? tasks.tasks.map((e,i) => {
                         return (
                             <div key={e.id}>
                                 
@@ -200,14 +191,13 @@ function Tasks(props) {
             <AuthModal/>
             <EditModel/>
             {
-                total ? <Pagination
-                    totalRecords={total}
+                tasks.tasks ? <Pagination
+                    totalRecords={tasks.total_task_count}
                     pageLimit={3}
                     pageNeighbours={1}
                     onPageChanged={onPageChanged}
                     currentPage={parseInt(id)}
-                />
-                : null
+                />  : null
             }
         </MainBody>
     );

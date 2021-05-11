@@ -7,7 +7,7 @@ const defaultState = {
     auth_modal: 0,
     isAdmin:    false,
     detail_task:{},
-    open_detail: 0
+    open_detail: 0,
 }
 
 export function taskListReducer(state = defaultState, action){
